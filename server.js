@@ -1,9 +1,9 @@
 const express = require('express');
-const { gql } = require('apollo-server-express');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
 const dotEnv = require('dotenv');
-
+const resolvers = require('./resolvers');
+const typeDefs = require('./typeDefs');
 // set env variables
 dotEnv.config();
 
@@ -14,16 +14,9 @@ app.use(cors());
 // body parser middlware
 app.use(express.json());
 
-const typeDefs = gql`
-type Query{
-    greetings: String
-}
 
-`;
 
-const resolvers ={
 
-};
 const apolloServer = new ApolloServer({
     typeDefs,
     resolvers
