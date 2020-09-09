@@ -3,7 +3,8 @@ const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
 const dotEnv = require('dotenv');
 const resolvers = require('./resolvers');
-const typeDefs = require('./typeDefs');
+const typeDefs = require('./typeDefs')
+const {connection} = require ('./database/util/index')
 // set env variables
 dotEnv.config();
 
@@ -14,7 +15,8 @@ app.use(cors());
 // body parser middlware
 app.use(express.json());
 
-
+//db connectivity
+connection();
 
 
 const apolloServer = new ApolloServer({
