@@ -5,6 +5,7 @@ const dotEnv = require('dotenv');
 const resolvers = require('./resolvers');
 const typeDefs = require('./typeDefs')
 const {connection} = require ('./database/util/index')
+const { verifyUser } = require('./helper/context');
 // set env variables
 dotEnv.config();
 
@@ -21,7 +22,15 @@ connection();
 
 const apolloServer = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context:  async ({req}) => { 
+        await verifyUser(req)
+        console.log('context rename');
+        return {
+            email: req.email,
+            loggedInUserId: req.loggedInUserId 
+        }
+    }
 })
 
 apolloServer.applyMiddleware({ app, path: '/graphql' });
